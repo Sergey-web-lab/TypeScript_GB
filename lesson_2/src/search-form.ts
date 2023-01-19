@@ -1,6 +1,32 @@
 import { renderBlock } from './lib.js'
 
-export function renderSearchFormBlock(dateIn: number, dateOut: number) {
+export function renderSearchFormBlock() {
+
+  interface SearchFormData {
+    inputCity: string
+    inputCheckIn: number
+    inputCheckOut: number
+    inputMaxPrice: number
+  }
+
+  function search(e) {
+    e.preventDefault();
+
+    let inputCity = <HTMLInputElement>form.querySelector('#city');
+    let inputCheckIn = <HTMLInputElement>form.querySelector('#check-in-date');
+    let inputCheckOut = <HTMLInputElement>form.querySelector('#check-out-date');
+    let inputMaxPrice = <HTMLInputElement>form.querySelector('#max-price');
+
+    const values: SearchFormData = {
+      inputCity: inputCity.value,
+      inputCheckIn: parseInt(inputCheckIn.value),
+      inputCheckOut: parseInt(inputCheckOut.value),
+      inputMaxPrice: parseInt(inputMaxPrice.value)
+    };
+
+    console.log(values);
+  }
+
 
   function formatTimeForMinPickDate(d) {
     const date = d.getDate().toString().padStart(2, '0');
@@ -49,7 +75,7 @@ export function renderSearchFormBlock(dateIn: number, dateOut: number) {
   renderBlock(
     'search-form-block',
     `
-    <form>
+    <form id="form">
       <fieldset class="search-filedset">
         <div class="row">
           <div>
@@ -76,11 +102,14 @@ export function renderSearchFormBlock(dateIn: number, dateOut: number) {
             <input id="max-price" type="text" value="" name="price" class="max-price" />
           </div>
           <div>
-            <div><button>Найти</button></div>
+            <div><button id="formBtn">Найти</button></div>
           </div>
         </div>
       </fieldset>
     </form>
     `
   )
+
+  const form = document.getElementById('form');
+  form.addEventListener('submit', search);
 }
