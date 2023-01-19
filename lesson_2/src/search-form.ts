@@ -1,0 +1,115 @@
+import { renderBlock } from './lib.js'
+
+export function renderSearchFormBlock() {
+
+  interface SearchFormData {
+    inputCity: string
+    inputCheckIn: number
+    inputCheckOut: number
+    inputMaxPrice: number
+  }
+
+  function search(e) {
+    e.preventDefault();
+
+    let inputCity = <HTMLInputElement>form.querySelector('#city');
+    let inputCheckIn = <HTMLInputElement>form.querySelector('#check-in-date');
+    let inputCheckOut = <HTMLInputElement>form.querySelector('#check-out-date');
+    let inputMaxPrice = <HTMLInputElement>form.querySelector('#max-price');
+
+    const values: SearchFormData = {
+      inputCity: inputCity.value,
+      inputCheckIn: parseInt(inputCheckIn.value),
+      inputCheckOut: parseInt(inputCheckOut.value),
+      inputMaxPrice: parseInt(inputMaxPrice.value)
+    };
+
+    console.log(values);
+  }
+
+
+  function formatTimeForMinPickDate(d) {
+    const date = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+
+    return `${year}-${month}-${date}`
+  }
+
+  function formatTimeForMaxPickDate(d) {
+    const monthInFormatLastDayOfMonth = d.getMonth();
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+
+    let formatLastDayOfMonth = new Date(year, monthInFormatLastDayOfMonth + 1, 0);
+    let lastDayOfMonth = formatLastDayOfMonth.getDate();
+
+    return `${year}-${month}-${lastDayOfMonth}`
+  }
+
+  function formatTimeFordefaultDateIn(d) {
+    const date = (d.getDate() + 1).toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+
+    return `${year}-${month}-${date}`
+  }
+
+  function formatTimeFordefaultDateOut(d) {
+    const date = (d.getDate() + 3).toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+
+    return `${year}-${month}-${date}`
+  }
+
+  let d = new Date();
+
+  let minPickDate = formatTimeForMinPickDate(d);
+  let maxPickDate = formatTimeForMaxPickDate(d);
+  let defaultDateIn = formatTimeFordefaultDateIn(d);
+  let defaultDateOut = formatTimeFordefaultDateOut(d);
+
+
+
+  renderBlock(
+    'search-form-block',
+    `
+    <form id="form">
+      <fieldset class="search-filedset">
+        <div class="row">
+          <div>
+            <label for="city">Город</label>
+            <input id="city" type="text" disabled value="Санкт-Петербург" />
+            <input type="hidden" disabled value="59.9386,30.3141" />
+          </div>
+          <!--<div class="providers">
+            <label><input type="checkbox" name="provider" value="homy" checked /> Homy</label>
+            <label><input type="checkbox" name="provider" value="flat-rent" checked /> FlatRent</label>
+          </div>--!>
+        </div>
+        <div class="row">
+          <div>
+            <label for="check-in-date">Дата заезда</label>
+            <input id="check-in-date" type="date" value="${defaultDateIn}" min="${minPickDate}" max="${maxPickDate}" name="checkin" />
+          </div>
+          <div>
+            <label for="check-out-date">Дата выезда</label>
+            <input id="check-out-date" type="date" value="${defaultDateOut}" min="${minPickDate}" max="${maxPickDate}" name="checkout" />
+          </div>
+          <div>
+            <label for="max-price">Макс. цена суток</label>
+            <input id="max-price" type="text" value="" name="price" class="max-price" />
+          </div>
+          <div>
+            <div><button id="formBtn">Найти</button></div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    `
+  )
+
+  const form = document.getElementById('form');
+  form.addEventListener('submit', search);
+}
