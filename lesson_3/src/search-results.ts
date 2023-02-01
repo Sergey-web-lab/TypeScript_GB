@@ -1,6 +1,6 @@
 import { renderBlock } from './lib.js'
 
-export function renderSearchStubBlock () {
+export function renderSearchStubBlock() {
   renderBlock(
     'search-results-block',
     `
@@ -12,7 +12,7 @@ export function renderSearchStubBlock () {
   )
 }
 
-export function renderEmptyOrErrorSearchBlock (reasonMessage) {
+export function renderEmptyOrErrorSearchBlock(reasonMessage) {
   renderBlock(
     'search-results-block',
     `
@@ -24,7 +24,47 @@ export function renderEmptyOrErrorSearchBlock (reasonMessage) {
   )
 }
 
-export function renderSearchResultsBlock () {
+export function renderSearchResultsBlock() {
+
+  const requestUrl = 'http://localhost:3030/places/1';
+
+  function sendRequest(method, url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+
+      xhr.open(method, url);
+
+      xhr.responseType = 'json'
+
+      xhr.onload = () => {
+        if (xhr.status >= 400) {
+          reject(xhr.response)
+        } else {
+          resolve(xhr.response)
+        }
+      }
+
+      xhr.onerror = () => {
+        reject(xhr.response)
+      }
+      xhr.send();
+    })
+  }
+
+  sendRequest('GET', requestUrl)
+    .then(data => {
+      let dataAPI = data
+      console.log(dataAPI)
+      // return dataAPI
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  // dataAPI = {
+  //   'bookedDates': bookedDates
+  // }
+
   renderBlock(
     'search-results-block',
     `
@@ -43,7 +83,7 @@ export function renderSearchResultsBlock () {
       <li class="result">
         <div class="result-container">
           <div class="result-img-container">
-            <div class="favorites active"></div>
+            <div class="favorites"></div>
             <img class="result-img" src="./img/result-1.png" alt="">
           </div>	
           <div class="result-info">
@@ -85,4 +125,21 @@ export function renderSearchResultsBlock () {
     </ul>
     `
   )
+
+  function toggleFavoriteItem() {
+    const favoriteDiv = document.querySelectorAll('.favorites');
+    favoriteDiv.forEach(i => {
+      i.addEventListener('click', () => {
+        i.classList.toggle('active')
+        if (localStorage.getItem('favoriteItems') === null) {
+          localStorage.setItem('favoriteItems', 'check')
+        } else {
+          localStorage.removeItem('favoriteItems')
+        }
+      })
+    })
+  }
+
+  toggleFavoriteItem()
+
 }
