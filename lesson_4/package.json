@@ -1,6 +1,7 @@
 {
   "name": "lesson_1",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "build": "rd -r public\\scripts 2>null & tsc",
     "build:dev": "rd -r public\\scripts 2>null & tsc -p tsconfig-dev.json",
@@ -15,5 +16,8 @@
     "eslint": "^8.31.0",
     "http-server": "^14.1.1",
     "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "ecommpay": "^0.1.7"
   }
 }

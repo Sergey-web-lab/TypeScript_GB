@@ -10,6 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderSearchStubBlock()
   // renderEmptyOrErrorSearchBlock("Ошибка")
   renderSearchResultsBlock()
+  // renderPaymentPage()
   // renderToast(
   //   { text: 'Это пример уведомления. Используйте его при необходимости', type: 'success' },
   //   { name: 'Понял', handler: () => { console.log('Уведомление закрыто') } }

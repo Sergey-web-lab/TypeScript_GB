@@ -1,4 +1,30 @@
+// declare var require: any
 import { renderBlock } from './lib.js'
+// import { Payment } from 'ecommpay';
+// import { Callback } from 'ecommpay';
+// const { Payment } = require('ecommpay');
+// const { Callback } = require('ecommpay');
+
+// const e = new Payment('186', '<secret_key>');
+// Идентификатор проекта и секретный ключ
+// e.paymentId = '1555943554067';
+// Идентификатор платежа, уникальный в рамках проекта
+// e.paymentAmount = 10;
+// Сумма в дробных единицах валюты
+// e.paymentCurrency = 'RUB';
+// Код валюты в формате ISO-4217 alpha-3
+// e.paymentDescription = 'Описание платежа';
+// Описание платежа. Необязательный параметр
+
+// export function renderPaymentPage() {
+//   `<link rel="stylesheet" href="https://paymentpage.ecommpay.com/shared/merchant.css" />
+// 	<script type="text/javascript" src="https://paymentpage.ecommpay.com/shared/merchant.js"></script>
+// 	<script type="text/javascript">
+// 		EPayWidget.run({ baseUrl: url }, 'get');
+// 	</script>`
+// }
+
+// const url = e.getUrl();
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -12,7 +38,7 @@ export function renderSearchStubBlock() {
   )
 }
 
-export function renderEmptyOrErrorSearchBlock(reasonMessage) {
+export function renderEmptyOrErrorSearchBlock(reasonMessage: string) {
   renderBlock(
     'search-results-block',
     `
